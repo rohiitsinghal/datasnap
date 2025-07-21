@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2/datasnap/backend'; // For Android emulator
+  static const String baseUrl = 'http://datasnap.rf.gd/backend'; // For Android emulator
   // static const String baseUrl = 'http://192.168.29.67/datasnap/backend'; // For iOS simulator
 
   static Future<Map<String, dynamic>> submitForm(UserSubmission submission) async {
