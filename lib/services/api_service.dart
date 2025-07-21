@@ -3,9 +3,8 @@ import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://10.0.2.2/mobile_app_assignment/backend'; // For Android emulator
-  // Use 'http://localhost/datasnap/backend' for iOS simulator
-  
+  static const String baseUrl = 'http://10.0.2.2/datasnap/backend'; // For Android emulator
+  // static const String baseUrl = 'http://192.168.29.67/datasnap/backend'; // For iOS simulator
 
   static Future<Map<String, dynamic>> submitForm(UserSubmission submission) async {
     try {
@@ -15,12 +14,18 @@ class ApiService {
         body: jsonEncode(submission.toJson()),
       );
 
+      // Debug logging - remove after fixing
+      print('POST Response status: ${response.statusCode}');
+      print('POST Response body: ${response.body}');
+
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+        final responseData = jsonDecode(response.body);
+        return responseData;
       } else {
         return {'error': 'Server error: ${response.statusCode}'};
       }
     } catch (e) {
+      print('POST Exception: $e');
       return {'error': 'Network error: $e'};
     }
   }
@@ -31,6 +36,10 @@ class ApiService {
         Uri.parse('$baseUrl/api.php'),
         headers: {'Content-Type': 'application/json'},
       );
+
+      // Debug logging - remove after fixing
+      print('GET Response status: ${response.statusCode}');
+      print('GET Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
@@ -43,6 +52,7 @@ class ApiService {
         throw Exception('Failed to load submissions');
       }
     } catch (e) {
+      print('GET Exception: $e');
       throw Exception('Network error: $e');
     }
   }
